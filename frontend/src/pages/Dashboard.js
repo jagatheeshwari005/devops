@@ -7,11 +7,11 @@ const Dashboard = () => {
 
     const stats = useMemo(() => {
         const totalProducts = products.length;
-        const totalStock = products.reduce((sum, p) => sum + parseInt(p.quantity), 0);
+        const totalStock = products.reduce((sum, p) => sum + parseInt(p.quantity || 0), 0);
         const stockValue = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
 
         // Low Stock Items (Threshold: 10 or minStock if set)
-        const lowStockCount = products.filter(p => p.quantity <= (p.minStock || 10)).length;
+        const lowStockCount = products.filter(p => (p.quantity || 0) <= (p.minStock || 10)).length;
 
         // Today's Sales
         const today = new Date().toISOString().split('T')[0];
