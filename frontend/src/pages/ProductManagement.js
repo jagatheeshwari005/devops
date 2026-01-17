@@ -25,7 +25,7 @@ const ProductManagement = () => {
 
     const handleOpenModal = (product = null) => {
         if (product) {
-            setEditingId(product.id);
+            setEditingId(product._id);
             setFormData(product);
         } else {
             setEditingId(null);
@@ -90,11 +90,11 @@ const ProductManagement = () => {
                     </thead>
                     <tbody>
                         {filteredProducts.map((product) => (
-                            <tr key={product.id}>
+                            <tr key={product._id}>
                                 <td>
                                     {product.name}
-                                    {product.quantity <= (product.minStock || 10) && (
-                                        <span className="stock-warning" style={{ fontSize: '0.8em', marginLeft: '0.5rem' }}>
+                                    {product.quantity <= (product.minStock || 0) && (
+                                        <span className="stock-warning" style={{ fontSize: '0.8em', marginLeft: '0.5rem', color: 'var(--danger)' }}>
                                             <FaExclamationCircle /> Low
                                         </span>
                                     )}
@@ -105,7 +105,7 @@ const ProductManagement = () => {
                                 <td>
                                     <div className="flex" style={{ gap: '0.5rem' }}>
                                         <button className="btn btn-primary" style={{ padding: '0.5rem' }} onClick={() => handleOpenModal(product)}><FaEdit /></button>
-                                        <button className="btn btn-danger" style={{ padding: '0.5rem' }} onClick={() => handleDelete(product.id)}><FaTrash /></button>
+                                        <button className="btn btn-danger" style={{ padding: '0.5rem' }} onClick={() => handleDelete(product._id)}><FaTrash /></button>
                                     </div>
                                 </td>
                             </tr>

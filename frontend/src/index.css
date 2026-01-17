@@ -187,3 +187,35 @@ td {
 tr:hover td {
   background-color: #f1f5f9;
 }
+
+/* Low Stock Alert Styles */
+.low-stock-row {
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+.critical-stock-row {
+  background-color: rgba(239, 68, 68, 0.15) !important;
+}
+
+.critical-stock-row td {
+  color: #b91c1c;
+  font-weight: 500;
+}
+
+.warning-icon {
+  color: var(--danger);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.stock-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-low {
+  background-color: #fee2e2;
+  color: #ef4444;
+}

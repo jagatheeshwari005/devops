@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaHome, FaBox, FaShoppingCart, FaClipboardList, FaChartLine, FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaBox, FaShoppingCart, FaClipboardList, FaChartLine, FaSignOutAlt, FaExclamationTriangle } from 'react-icons/fa';
 
 const Sidebar = () => {
     return (
@@ -24,6 +24,9 @@ const Sidebar = () => {
                 </NavLink>
                 <NavLink to="/inventory" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
                     <FaClipboardList /> Inventory
+                </NavLink>
+                <NavLink to="/low-stock" className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}>
+                    <FaExclamationTriangle /> Low Stock
                 </NavLink>
                 <button className="nav-link" onClick={() => { localStorage.removeItem('token'); window.location.href = '/'; }} style={{ width: '100%', border: 'none', background: 'transparent', textAlign: 'left' }}>
                     <FaSignOutAlt /> Logout

@@ -39,7 +39,7 @@ const Inventory = () => {
                     </thead>
                     <tbody>
                         {inventoryStatus.map((item) => (
-                            <tr key={item.id}>
+                            <tr key={item._id}>
                                 <td>{item.name}</td>
                                 <td>{item.category}</td>
                                 <td>{item.quantity}</td>

@@ -9,6 +9,7 @@ import ProductManagement from './pages/ProductManagement';
 import Purchase from './pages/Purchase';
 import Sales from './pages/Sales';
 import Inventory from './pages/Inventory';
+import LowStockProducts from './pages/LowStockProducts';
 import { InventoryProvider, useInventory } from './context/InventoryContext';
 
 const Layout = ({ children }) => {
@@ -63,6 +64,7 @@ const AppContent = () => {
           <Route path="/purchase" element={<ProtectedRoute><Purchase /></ProtectedRoute>} />
           <Route path="/sales" element={<ProtectedRoute><Sales /></ProtectedRoute>} />
           <Route path="/inventory" element={<ProtectedRoute><Inventory /></ProtectedRoute>} />
+          <Route path="/low-stock" element={<ProtectedRoute><LowStockProducts /></ProtectedRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Layout>

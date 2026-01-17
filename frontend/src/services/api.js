@@ -20,11 +20,13 @@ api.interceptors.request.use((config) => {
 
 export const googleLogin = (token) => api.post('/auth/google', { token });
 export const getProducts = () => api.get('/products');
+export const getLowStockProducts = () => api.get('/products/low-stock');
 export const addProduct = (product) => api.post('/products/add', product);
+export const updateProduct = (id, product) => api.put(`/products/${id}`, product);
+export const deleteProduct = (id) => api.delete(`/products/${id}`);
 
 // Placeholder endpoints (need backend implementation if not mocked in context)
 export const getDashboardStats = () => api.get('/dashboard/stats');
-export const deleteProduct = (id) => api.delete(`/products/${id}`);
 export const addPurchase = (purchaseData) => api.post('/purchases', purchaseData);
 export const addSale = (saleData) => api.post('/sales', saleData);
 export const getInventory = () => api.get('/inventory');
