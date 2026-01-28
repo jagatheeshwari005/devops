@@ -74,18 +74,69 @@ export const InventoryProvider = ({ children }) => {
     };
 
     const addSale = async (saleData) => {
-        // Implementation for sales...
-        showNotification('success', 'Sale recorded (Local state)');
+        try {
+            // In a real app, we'd call await api.addSale(saleData);
+            // For this implementation, we update the local state to trigger the low-stock alert
+            const updatedProducts = products.map(p => {
+                if (p.id === saleData.productId || p._id === saleData.productId) {
+                    return { ...p, quantity: parseInt(p.quantity) - parseInt(saleData.quantity) };
+                }
+                return p;
+            });
+            setProducts(updatedProducts);
+
+            const newSale = {
+                ...saleData,
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                total: (products.find(p => p.id === saleData.productId || p._id === saleData.productId)?.price || 0) * saleData.quantity,
+                productName: products.find(p => p.id === saleData.productId || p._id === saleData.productId)?.name || 'Unknown Product'
+            };
+            setSales([...sales, newSale]);
+            showNotification('success', 'Sale recorded and stock updated');
+        } catch (error) {
+            showNotification('error', 'Failed to record sale');
+        }
     };
 
     const deleteSale = async (id) => {
-        // Implementation for delete sale...
-        showNotification('success', 'Sale deleted');
+        const saleToDelete = sales.find(s => s.id === id);
+        if (saleToDelete) {
+            const updatedProducts = products.map(p => {
+                if (p.id === saleToDelete.productId || p._id === saleToDelete.productId) {
+                    return { ...p, quantity: parseInt(p.quantity) + parseInt(saleToDelete.quantity) };
+                }
+                return p;
+            });
+            setProducts(updatedProducts);
+            setSales(sales.filter(s => s.id !== id));
+            showNotification('success', 'Sale deleted and stock restored');
+        }
     };
 
     const addPurchase = async (purchaseData) => {
-        // Implementation for purchase...
-        showNotification('success', 'Purchase recorded');
+        try {
+            // Similar logic for purchases
+            const updatedProducts = products.map(p => {
+                if (p.id === purchaseData.productId || p._id === purchaseData.productId) {
+                    return { ...p, quantity: parseInt(p.quantity) + parseInt(purchaseData.quantity) };
+                }
+                return p;
+            });
+            setProducts(updatedProducts);
+
+            const newPurchase = {
+                ...purchaseData,
+                id: Date.now().toString(),
+                date: new Date().toISOString(),
+                total: purchaseData.costPrice * purchaseData.quantity,
+                productName: products.find(p => p.id === purchaseData.productId || p._id === purchaseData.productId)?.name || 'Unknown Product'
+            };
+            setPurchases([...purchases, newPurchase]);
+            showNotification('success', 'Purchase recorded and stock updated');
+        } catch (error) {
+            showNotification('error', 'Failed to record purchase');
+        }
     };
 
     return (

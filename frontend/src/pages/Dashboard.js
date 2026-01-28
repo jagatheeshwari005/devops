@@ -1,11 +1,12 @@
-import React, { useMemo } from 'react';
-import { FaBox, FaShoppingCart, FaChartLine, FaExclamationTriangle } from 'react-icons/fa';
+import React, { useMemo, useState, useEffect } from 'react';
+import { FaBox, FaShoppingCart, FaChartLine, FaExclamationTriangle, FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useInventory } from '../context/InventoryContext';
 
 const Dashboard = () => {
     const { products, sales } = useInventory();
     const navigate = useNavigate();
+    const [showBanner, setShowBanner] = useState(false);
 
     const stats = useMemo(() => {
         const totalProducts = products.length;
@@ -23,8 +24,43 @@ const Dashboard = () => {
         return { totalProducts, totalStock, stockValue, lowStockCount, todayRevenue };
     }, [products, sales]);
 
+    // Show banner whenever lowStockCount changes and is greater than 0
+    useEffect(() => {
+        if (stats.lowStockCount > 0) {
+            setShowBanner(true);
+        } else {
+            setShowBanner(false);
+        }
+    }, [stats.lowStockCount]);
+
     return (
-        <div>
+        <div className="fade-in">
+            {showBanner && (
+                <div className="banner-alert">
+                    <div className="banner-content">
+                        <FaExclamationTriangle size={20} />
+                        <div>
+                            Warning: <span>{stats.lowStockCount}</span> product{stats.lowStockCount > 1 ? 's are' : ' is'} running low on stock!
+                            <button
+                                onClick={() => navigate('/low-stock')}
+                                style={{
+                                    background: 'none',
+                                    color: '#b45309',
+                                    textDecoration: 'underline',
+                                    marginLeft: '10px',
+                                    fontWeight: '600'
+                                }}
+                            >
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                    <button className="close-btn" onClick={() => setShowBanner(false)}>
+                        <FaTimes />
+                    </button>
+                </div>
+            )}
+
             <h1>Dashboard Analytics</h1>
             <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>Real-time overview of your business.</p>
 
